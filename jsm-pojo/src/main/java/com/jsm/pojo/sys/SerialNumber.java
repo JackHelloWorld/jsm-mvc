@@ -28,7 +28,7 @@ public class SerialNumber implements Serializable{
 		this.columnName = columnName;
 	}
 
-	/**创建时间*/
+	/**列名*/
 	@Column(name="f_column_name")
 	private String columnName;
 
