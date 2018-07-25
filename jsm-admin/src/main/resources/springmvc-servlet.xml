@@ -9,7 +9,7 @@
             http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
 	<!-- 对web包中的所有类进行扫描，以完成Bean创建和自动依赖注入的功能 -->
-	<context:component-scan base-package="com.jm.controller" />
+	<context:component-scan base-package="com.jsm.controller" />
 
 	<mvc:annotation-driven>
 		<mvc:message-converters>
@@ -28,35 +28,7 @@
 	<mvc:view-controller path="/" view-name="redirect:/toLogin" />
 
 	<mvc:interceptors>
-		<bean class="com.jm.common.interceptor.SysInterceptor"></bean> <!-- 拦截所有springmvc的url！ -->
-		<bean class="com.jm.controller.utils.UserInterceptor">
-			<property name="uncheckUrls">
-				<list>
-					<value>/</value>
-					<value>/toLogin</value>
-					<value>/generate_code</value>
-					<value>/login</value>
-					<value>/notLoginAjax</value>
-					<value>/tologinpage</value>
-					<value>/static/</value>
-					<value>/error/</value>
-				</list>
-			</property>
-		</bean>
-		<bean class="com.jm.controller.utils.PermissionsInterceptor">
-			<property name="uncheckUrls">
-				<list>
-					<value>/</value>
-					<value>/toLogin</value>
-					<value>/generate_code</value>
-					<value>/login</value>
-					<value>/notLoginAjax</value>
-					<value>/tologinpage</value>
-					<value>/static/</value>
-					<value>/error/</value>
-				</list>
-			</property>
-		</bean>
+		<bean class="com.jsm.common.interceptor.SysInterceptor"></bean> <!-- 拦截所有springmvc的url！ -->
 	</mvc:interceptors>
 
 	<!--对模型视图名称的解析，即在模型视图名称添加前后缀 -->
