@@ -17,5 +17,5 @@ public class SysController extends BaseController{
 	public ResultTools toIndex(HttpServletRequest request){
 		return ResultTools.SUCCESS("The service is running...");
 	}
-
+	
 }

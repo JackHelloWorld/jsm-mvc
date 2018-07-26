@@ -28,6 +28,14 @@ public class PayOrderInfo implements Serializable{
 	/**订单编号*/
 	@Column(name="p_order_number")
 	private String orderNumber;
+
+	/**支付发起用户id*/
+	@Column(name="p_data_id")
+	private Long userInfoId;
+	
+	/**支付类型{1:微信,2:支付宝,3:银联支付}*/
+	@Column(name="p_pay_type")
+	private Integer payType;
 	
 	/**订单创建时间*/
 	@Column(name="p_create_time")
