@@ -4,11 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.SessionFactory;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,9 +19,6 @@ import com.jsm.common.config.Const;
  *
  */
 public class SysInterceptor implements HandlerInterceptor {
-
-	@Resource
-	private SessionFactory sessionFactory;
 	
 	private static final ThreadLocal<SimpleDateFormat> sdf = new ThreadLocal<SimpleDateFormat>() {
 		protected SimpleDateFormat initialValue() {
@@ -42,30 +37,34 @@ public class SysInterceptor implements HandlerInterceptor {
 	 * Action执行之后，生成视图之前执行！！
 	 */
 	public void postHandle(HttpServletRequest request,HttpServletResponse response, Object handler,	ModelAndView modelAndView) throws Exception {
+		
+	}
+
+	public boolean preHandle(HttpServletRequest request,HttpServletResponse response, Object handler) throws Exception {
+		request.setCharacterEncoding("utf-8");
 		if(handler instanceof HandlerMethod && Const.IS_TEST){
 			HandlerMethod method = (HandlerMethod)handler;
 			StringBuilder sb = new StringBuilder("\nRequest action report -------- ").append(sdf.get().format(new Date())).append(" ------------------------------\n");
 			String className = (method.getBean().getClass().getName());
 			sb.append("Controller  : ").append(method.getBean().getClass().getName()).append(".(").append(className.trim().substring(className.lastIndexOf('.')+1, className.length())).append(".java:1)");
 			sb.append("\nMethod : ").append(method);
-			if (modelAndView != null) {
-				sb.append("\nView : ").append(modelAndView.getViewName());
-			}
 			sb.append("\nParameters : ");
 			Enumeration<String> names = request.getParameterNames();
 			while (names.hasMoreElements()) {
 				String name = names.nextElement();
 				sb.append(name).append(" = ").append(request.getParameter(name)).append("   ");
 			}
+			
+			sb.append("\nheaders : ");
+			Enumeration<String> headers = request.getParameterNames();
+			while (headers.hasMoreElements()) {
+				String header = headers.nextElement();
+				sb.append(header).append(" = ").append(request.getParameter(header)).append("   ");
+			}
 			sb.append("\nRequest url  :\t").append(request.getRequestURI());
 			sb.append("\n--------------------------------------------------------------------------------\n");
 			System.out.print(sb.toString());
-			
 		}
-	}
-
-	public boolean preHandle(HttpServletRequest request,HttpServletResponse response, Object handler) throws Exception {
-		request.setCharacterEncoding("utf-8");
 		return true;
 	}
 
